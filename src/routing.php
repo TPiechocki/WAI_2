@@ -12,4 +12,6 @@ $routing = [
     '/contact' => 'contact',
     '/contact_info' => 'contactInfo',
     '/gallery' => 'gallery',
+    '/photo' => 'photo',
+    '/remove' => 'remove',
 ];

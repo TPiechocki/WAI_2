@@ -1,6 +1,8 @@
 {
-    "require": {
-        "mongodb/mongodb": "1.1.2",
-        "ext-fileinfo": "*"
-    }
+  "require": {
+    "mongodb/mongodb": "1.1.2",
+    "ext-fileinfo": "*",
+    "ext-mongodb": "*",
+    "ext-gd": "*"
+  }
 }

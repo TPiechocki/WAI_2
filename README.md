@@ -4,9 +4,14 @@ Photo gallery in PHP
 Changelog:
 
 0.1
+- display in gallery photo thumbnails
+- gallery paging
+- click on thumbnail redirect to full photo
 - possible to upload an image
 - file restricted to img or png with size less or equal to 1 MB
 - displaying errors connected to uploading photo
+- creating a thumbnail for uploaded photos
+- creating a photo with watermark
 
 0.0.1
 - MVC procedural structure

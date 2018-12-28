@@ -35,7 +35,12 @@
                         <li><a href="sailing_PL#yachts">Popularne jednostki</a></li>
                     </ul>
                 </li>
-                <li <?= ($page == 'gallery')? 'class = "active"' : "" ?>><a href="/gallery">Galeria</a></li>
+                <li <?= ($page == 'gallery')? 'class = "active"' : "" ?>>
+                    <a href="/gallery<?php
+                            if (!empty($page_number))
+                                echo "?page=" . $page_number;
+                        ?>">Galeria</a>
+                </li>
                 <li <?= ($page == 'contact')? 'class = "active"' : "" ?>><a href="contact">Kontakt</a></li>
             </ul>
         </nav>
