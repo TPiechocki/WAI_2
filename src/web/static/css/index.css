@@ -366,6 +366,10 @@ nav{
         width: 100%;
     }
 
+#searchResult {
+    text-align: center;
+}
+
 aside {
     flex-grow: 1;
     flex-shrink: 0;
@@ -472,6 +476,9 @@ form{
     #upload {
         border: none;
         width: 80%;
+    }
+    .inputDisabled {
+        background-color: #cccccc;
     }
 
 

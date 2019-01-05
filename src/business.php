@@ -5,22 +5,22 @@
 
 use MongoDB\BSON\ObjectID;
 
+// connect to database
+    function getDB() {
+        $mongo = new MongoDB\Client(
+            "mongodb://localhost:27017/wai",
+            [
+                'username' => 'wai_web',
+                'password' => 'w@i_w3b',
+            ]);
+        
+        $db = $mongo->wai;
+        
+        return $db;
+    }
+
 // functions connected with uploading: file transtitions and file check
 require_once "business/file_upload.php";
-
-// connect to database
-function getDB() {
-    $mongo = new MongoDB\Client(
-        "mongodb://localhost:27017/wai",
-        [
-            'username' => 'wai_web',
-            'password' => 'w@i_w3b',
-        ]);
-
-    $db = $mongo->wai;
-
-    return $db;
-}
 
 // returns all public photos and user's private photos
 function getAllPhotos() {

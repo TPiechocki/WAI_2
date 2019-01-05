@@ -23,14 +23,6 @@
             <?php else : ?>
                 <span><?= $photo['author'] ?></span><br />
             <?php endif ?>
-            <label class="photoCheckbox">
-                <?php if (!empty($_SESSION['picked_ids']) && in_array($photo['_id'], $_SESSION['picked_ids'])) : ?>
-                    <input class="photoCheckbox" type="checkbox" name="checked[]" value="<?= $photo['_id'] ?>"
-                           checked="checked" disabled="disabled" />
-                <?php else : ?>
-                    <input class="photoCheckbox" type="checkbox" name="checked[]" value="<?= $photo['_id'] ?>" />
-                <?php endif ?>
-            </label>
             <?php if (!empty($_SESSION['usergroup']) && $_SESSION['usergroup'] === "admin") : ?>
                 <?php if (!empty($photo['private'])) : ?>
                     <a class="linkButton" href="remove?id=<?= $photo['_id'] ?>&private=yes">Usuń</a>

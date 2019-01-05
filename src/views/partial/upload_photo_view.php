@@ -26,7 +26,7 @@
         
         <label for="author">Autor: </label><br />
         <input type="text" name="author" id="author"
-            <?php if (!empty($_SESSION['username'])) echo "disabled='disabled' value='" . $_SESSION['username'] . "'"?> /><br /><br />
+            <?php if (!empty($_SESSION['username'])) echo "readonly class='inputDisabled' value='" . $_SESSION['username'] . "'"?> /><br /><br />
         
         <?php if (!empty($_SESSION['username'])) : ?>
             <input type="radio" name="privacy" value="public" id="public" checked="checked" />

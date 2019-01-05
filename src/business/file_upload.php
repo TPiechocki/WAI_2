@@ -3,6 +3,8 @@
 // Created by Tomasz Piechocki. 20/12/18
 //
 
+use MongoDB\BSON\ObjectID;
+
 // validate form and upload photo
 function uploadPhoto(&$model) {
         $model['error'] = NULL;
