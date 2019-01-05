@@ -9,21 +9,12 @@ include "partial/head.php";
 
 <div class="main">
     <aside>
-
+        <?php include "partial/login_view.php" ?>
     </aside>
     <div id="content">
-        <?php if (count($photos)): ?>
-            <?php foreach ($photos as $photo): ?>
-                <div class="photo centerText">
-                    <a class="thumbnail" href="photo?id=<?= $photo['_id'] ?>">
-                        <img src="<?= $photo['path_thumbnail'] ?>" alt="<?= $photo['title'] ?>" />
-                    </a>
-                    <span><?= $photo['title'] ?></span><br />
-                    <span><?= $photo['author'] ?></span><br />
-                    <a class="linkButton" href="remove?id=<?= $photo['_id'] ?>">Usuń</a>
-                </div>
-            <?php endforeach ?>
-        <?php endif; ?>
+        <form method="post" id="photosForm" action="save_choice?page=<?= $page_number ?>">
+            <?php require "partial/photos_gallery.php" ?>
+        </form>
         <div class="pagenav">
             <?php if ($page_number > 2): ?>
                 <a href="gallery?page=1">&laquo;</a>
@@ -38,6 +29,9 @@ include "partial/head.php";
             <?php if ($page_number < $number_of_pages-1): ?>
                 <a href="gallery?page=<?= $number_of_pages ?>">&raquo;</a>
             <?php endif ?>
+        </div>
+        <div class="saveChoice">
+            <input class="linkButton" type="submit" form="photosForm" value="Zapamiętaj wybrane" />
         </div>
     </div>
     <aside>

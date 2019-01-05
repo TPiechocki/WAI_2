@@ -3,6 +3,13 @@ Photo gallery in PHP
 
 Changelog:
 
+1.0
+- added users
+- "favourites" - user can choose photos and then display only them
+- added user groups in database
+- user can upload private photos
+- search for photos with ajax
+
 0.1
 - display in gallery photo thumbnails
 - gallery paging

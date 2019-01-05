@@ -17,8 +17,16 @@ include "partial/head.php";
             <p>
                 <i>"<?= $photo['title'] ?>"</i> - <?= $photo['author'] ?>
             </p>
-            <a class="linkButton" href="gallery?page=<?= $position ?>">Powrót</a>
-            <a class="linkButton" href="remove?id=<?= $photo['_id'] ?>">Usuń</a>
+            <?php if (!empty($_GET['picked']) && $_GET['picked'] === "yes") : ?>
+                <a class="linkButton" href="picked?page=<?= $_GET['page'] ?>">Powrót</a>
+            <?php elseif (!empty($_GET['str'])) : ?>
+                <a class="linkButton" href="search?str=<?= $_GET['str'] ?>&page=<?= $_GET['page'] ?>">Powrót</a>
+            <?php else : ?>
+                <a class="linkButton" href="gallery?page=<?= $_GET['page'] ?>">Powrót</a>
+            <?php endif ?>
+            <?php if (!empty($_SESSION['usergroup']) && $_SESSION['usergroup'] === "admin") : ?>
+                <a class="linkButton" href="remove?id=<?= $photo['_id'] ?>">Usuń</a>
+            <?php endif ?>
         </div>
     </div>
     <aside>

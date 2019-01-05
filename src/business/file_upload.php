@@ -3,6 +3,91 @@
 // Created by Tomasz Piechocki. 20/12/18
 //
 
+// validate form and upload photo
+function uploadPhoto(&$model) {
+        $model['error'] = NULL;
+        $check_status = true;
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (empty($_FILES['photo']['name'])) {
+                $model['error']['nophoto']['info'] = "Musisz dodać zdjęcie.";
+            }
+            if (empty($_REQUEST['watermark'])) {
+                $model['error']['nowatermark']['info'] = "Musisz dodać treść znaku wodnego.";
+            }
+            if (!empty($_FILES['photo']['name'])) {
+                $check_status = checkPhoto($_FILES['photo'], $model);
+            }
+            if (!empty($_REQUEST['watermark']) && strlen($_REQUEST['watermark']) > 24) {
+                $model['error']['watermark']['info'] = "Znak wodny może mieć co najwyżej 24 znaki.";
+                $check_status = false;
+            }
+            if (!empty($_REQUEST['title']) && strlen($_REQUEST['title']) > 24) {
+                $model['error']['title']['info'] = "Tytuł może mieć co najwyżej 24 znaki.";
+                $check_status = false;
+            }
+            if (!empty($_REQUEST['author']) && strlen($_REQUEST['author']) > 24) {
+                $model['error']['watermark']['info'] = "Nazwa autora może mieć co najwyżej 24 znaki.";
+                $check_status = false;
+            }
+            if (!empty($_FILES['photo']['name'] && !empty($_REQUEST['watermark']))) {
+                if ($check_status) {
+                    addPhoto($_FILES['photo']);
+                    return 'redirect:gallery';
+                }
+            }
+        }
+        return gallery($model);
+    }
+
+// check and save the uploaded photo
+function addPhoto($file) {
+        $photo = [
+            '_id' => new ObjectID(),
+            'name' => basename($file['name']),
+            'type' => pathinfo($file['name'], PATHINFO_EXTENSION),
+            'path_orig' => NULL,
+            'path_thumbnail' => NULL,
+            'path_watermark' => NULL,
+            'watermark' => filter_var($_REQUEST['watermark'], FILTER_SANITIZE_STRING),
+            'title' => "Bez tytułu",
+            'author' => "Anonim",
+            'date' => date('YmdHis'),
+        ];
+        $photo['path_orig'] = 'images/original/' . $photo['_id'] . '.' . $photo['type'];
+        $photo['path_thumbnail'] = 'images/thumbnail/' . $photo['_id'] . '.' . $photo['type'];
+        $photo['path_watermark'] = 'images/watermark/' . $photo['_id'] . '.' . $photo['type'];
+        if(!empty($_REQUEST['title'])) {
+            $photo['title'] = filter_var($_REQUEST['title'], FILTER_SANITIZE_STRING);
+        }
+        if(!empty($_REQUEST['author'])) {
+            $photo['author'] = filter_var($_REQUEST['author'], FILTER_SANITIZE_STRING);
+        }
+        move_uploaded_file($file['tmp_name'], $photo['path_orig']);
+        createThumbnail($photo['path_orig'], $photo['path_thumbnail'], $photo['type']);
+        createImageWithWatermark($photo['path_orig'], $photo['path_watermark'], $photo['type'], $photo['watermark']);
+        
+        // add information about photo to database and check if id is not repeated
+        $db = getDB();
+        if (!empty($_REQUEST['privacy']) && $_REQUEST['privacy'] == "private") {
+            $user = ($db->users->find(['login' => $_SESSION['username']])->toArray())[0];
+            if (empty($user['photos']))
+                $photos = [];
+            else
+                $photos = iterator_to_array($user['photos']);
+            while (in_array($photo['_id'],  $photos))
+                $photo['_id'] = new ObjectID();
+            array_push($photos, $photo);
+            $user['photos'] = $photos;
+            $db->users->replaceOne(['login' => $_SESSION['username']], $user);
+            
+        }
+        else {
+            while (!empty($db->photos->findOne(['_id' => new ObjectID($photo['_id'])])))
+                $photo['_id'] = new ObjectID();
+            $db->photos->insertOne($photo);
+        }
+    }
+    
 // check if the uploaded photo is not bigger than 1MB and if the format is jpg or png
 // model stores error messages
 function checkPhoto($uploaded_photo, &$model) {

@@ -27,19 +27,23 @@
 
             <ul id="menu">
                 <li class="firstnav <?= ($page == 'main_page')? "active" : "" ?>"><a href="/">Strona Główna</a></li>
-                <li <?= ($page == 'famous')? 'class = "active"' : "" ?>><a href="/famous">Znane żaglowce</a></li>
+                <li <?= ($page == 'famous')? 'class = "active"' : "" ?>><a href="famous">Znane żaglowce</a></li>
                 <li class="withSubmenu <?= ($page == 'sailing_PL')? "active" : "" ?>">
-                    <a href="/sailing_PL">Żeglarstwo w Polsce</a>
+                    <a href="sailing_PL">Żeglarstwo w Polsce</a>
                     <ul class="submenu">
                         <li><a href="sailing_PL#lakes">Polske jeziora</a></li>
                         <li><a href="sailing_PL#yachts">Popularne jednostki</a></li>
                     </ul>
                 </li>
-                <li <?= ($page == 'gallery')? 'class = "active"' : "" ?>>
-                    <a href="/gallery<?php
+                <li  class="withSubmenu <?= ($page == 'gallery')? "active" : "" ?>">
+                    <a href="gallery<?php /*
                             if (!empty($page_number))
-                                echo "?page=" . $page_number;
+                                echo "?page=" . $page_number;*/
                         ?>">Galeria</a>
+                    <ul class="submenu">
+                        <li><a href="picked">Wybrane zdjęcia</a></li>
+                        <li><a href="search">Szukaj</a></li>
+                    </ul>
                 </li>
                 <li <?= ($page == 'contact')? 'class = "active"' : "" ?>><a href="contact">Kontakt</a></li>
             </ul>
